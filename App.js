@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import colors from './Colors';
-import temporaryData from './src/data/temporaryData';
-// import TodoList from './src/views/Todolist';
-// import AddListModal from './src/views/Addlist';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import colors from "./Colors";
+import temporaryData from "./src/data/temporaryData";
+import AddListPage from "./src/views/AddListPage";
 
 export default function App() {
   const [addToDoVisible, setAddToDoVisible] = useState(false);
@@ -35,16 +41,19 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Modal animationType="slide" visible={addToDoVisible} onRequestClose={closeModalToggle}>
-        <Text>disini add baru</Text>
+      <Modal
+        animationType="slide"
+        visible={addToDoVisible}
+        onRequestClose={closeModalToggle}
+      >
+        <AddListPage closeModal={closeModalToggle} addList={addList} />
       </Modal>
 
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.divider} />
+      <View style={{ flexDirection: "row" }}>
         <Text style={styles.title}>
-          Todo <Text style={{ fontWeight: '200', color: colors.blue }}> Lists</Text>
+          Todo{" "}
+          <Text style={{ fontWeight: "200", color: colors.blue }}> Lists</Text>
         </Text>
-        <View style={styles.divider} />
       </View>
 
       <View style={{ marginVertical: 48 }}>
@@ -56,7 +65,7 @@ export default function App() {
       </View>
 
       <View style={{ height: 275, paddingLeft: 32 }}>
-       <Text>testing</Text>
+        <Text>testing</Text>
       </View>
     </View>
   );
@@ -66,20 +75,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  divider: {
-    backgroundColor: colors.lightblue,
-    flex: 1,
-    height: 1,
-    alignSelf: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   title: {
     fontSize: 38,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.black,
     paddingHorizontal: 48,
   },
@@ -89,13 +91,13 @@ const styles = StyleSheet.create({
     borderColor: colors.lightblue,
     borderRadius: 4,
     padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   add: {
     color: colors.blue,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 14,
     marginTop: 8,
   },
