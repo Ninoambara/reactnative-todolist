@@ -11,6 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "./Colors";
 import temporaryData from "./src/data/temporaryData";
 import AddListPage from "./src/views/AddListPage";
+import ListModalPage from "./src/views/ListModalPage";
 
 export default function App() {
   const [addToDoVisible, setAddToDoVisible] = useState(false);
@@ -65,7 +66,20 @@ export default function App() {
       </View>
 
       <View style={{ height: 275, paddingLeft: 32 }}>
-        <Text>testing</Text>
+        <FlatList
+          data={lists}
+          keyExtractor={(item) => item.name}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <ListModalPage
+              list={item}
+              updateList={updateList}
+              deleteItemById={deleteItemById}
+            />
+          )}
+          keyboardShouldPersistTaps="always"
+        />
       </View>
     </View>
   );
