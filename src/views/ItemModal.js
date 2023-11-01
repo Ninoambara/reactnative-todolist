@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,17 +8,18 @@ import {
   TextInput,
   Alert,
   FlatList,
-} from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import colors from "../../Colors";
 
 export default function ItemModal({ list, closeModal, updateList }) {
-  const [newToDo, setNewToDo] = useState('');
+  const [newToDo, setNewToDo] = useState("");
 
   const addTodo = () => {
+    if (!newToDo) return alert("please fill the name");
     list.todos.push({ title: newToDo, completed: false });
     updateList(list);
-    setNewToDo('');
+    setNewToDo("");
   };
 
   const removeTodo = (index) => {
@@ -46,41 +47,46 @@ export default function ItemModal({ list, closeModal, updateList }) {
 
   const renderTodo = (todo, index) => {
     return (
-      <View style={styles.todoContainer}>
-        <TouchableOpacity
-          onPress={() => toggleTodoCompleted(index)}
-          onLongPress={() =>
-            Alert.alert('Remove Task', 'Do you want to remove this task?', [
-              { text: 'OK', onPress: () => removeTodo(index) },
-              { text: 'Cancel' },
-            ])
-          }
-        >
+      <TouchableOpacity
+        onLongPress={() =>
+          Alert.alert("Remove Task", "Do you want to remove this task?", [
+            { text: "OK", onPress: () => removeTodo(index) },
+            { text: "Cancel" },
+          ])
+        }
+        style={styles.todoContainer}
+      >
+        <TouchableOpacity onPress={() => toggleTodoCompleted(index)}>
           <Ionicons
-            name={todo.completed ? 'ios-square' : 'ios-square-outline'}
+            name={todo.completed ? "ios-square" : "ios-square-outline"}
             size={24}
             color={colors.gray}
             style={{ width: 32 }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => moveItemUp(index)}>
-          <Ionicons name="ios-arrow-up" size={24} color={colors.blue} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => moveItemDown(index)}>
-          <Ionicons name="ios-arrow-down" size={24} color={colors.blue} />
-        </TouchableOpacity>
-        <Text
-          style={[
-            styles.todo,
-            {
-              color: todo.completed ? colors.gray : colors.black,
-              textDecorationLine: todo.completed ? 'line-through' : 'none',
-            },
-          ]}
-        >
-          {todo.title}
-        </Text>
-      </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text
+            style={[
+              styles.todo,
+              {
+                color: todo.completed ? colors.gray : colors.black,
+                textDecorationLine: todo.completed ? "line-through" : "none",
+                flex: 1,
+              },
+            ]}
+          >
+            {todo.title}
+          </Text>
+          <View style={{ flexDirection: "row", marginRight: 10 }}>
+            <TouchableOpacity onPress={() => moveItemUp(index)}>
+              <Ionicons name="ios-arrow-up" size={24} color={colors.blue} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => moveItemDown(index)}>
+              <Ionicons name="ios-arrow-down" size={24} color={colors.blue} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -95,13 +101,19 @@ export default function ItemModal({ list, closeModal, updateList }) {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        style={{ position: 'absolute', top: 64, right: 32, zIndex: 10 }}
+        style={{ position: "absolute", top: 64, right: 32, zIndex: 10 }}
         onPress={closeModal}
       >
         <AntDesign name="close" size={24} color={colors.black} />
       </TouchableOpacity>
 
-      <View style={[styles.section, styles.header, { borderBottomColor: list.color }]}>
+      <View
+        style={[
+          styles.section,
+          styles.header,
+          { borderBottomColor: list.color },
+        ]}
+      >
         <View>
           <Text style={styles.title}>{list.name}</Text>
           <Text style={styles.taskCount}>
@@ -122,6 +134,7 @@ export default function ItemModal({ list, closeModal, updateList }) {
 
       <View style={[styles.section, styles.footer]}>
         <TextInput
+          placeholder="Add new Todo"
           style={[styles.input, { borderColor: list.color }]}
           onChangeText={(text) => setNewToDo(text)}
           value={newToDo}
@@ -140,24 +153,24 @@ export default function ItemModal({ list, closeModal, updateList }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   section: {
     flex: 1,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
 
   header: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     marginLeft: 72,
     borderBottomWidth: 5,
   },
 
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.black,
   },
 
@@ -165,13 +178,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
     color: colors.gray,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 
   footer: {
     paddingHorizontal: 32,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   input: {
@@ -186,19 +199,19 @@ const styles = StyleSheet.create({
   addToDo: {
     borderRadius: 4,
     padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   todoContainer: {
     paddingVertical: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   todo: {
     color: colors.black,
-    fontWeight: '700',
+    fontWeight: "700",
     fontSize: 16,
   },
 });

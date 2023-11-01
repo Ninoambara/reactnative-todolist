@@ -26,6 +26,7 @@ export default function AddListPage({ addList, closeModal }) {
   const [color, setColor] = useState(backgroundColors[0]);
 
   const createToDo = () => {
+    if(!name) return alert("please fill name ")
     const list = { name, color };
     addList(list);
 
